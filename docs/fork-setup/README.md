@@ -76,7 +76,7 @@
 | `--guild-ids` | `ALLOWED_GUILD_IDS` | 扱うサーバーを限る（任意。カンマ区切り） |
 | `--dry-run` | ― | Cloudflare を読むだけで、計画を出して終わる（何も作らない・入れない） |
 | ― | `CLOUDFLARE_API_TOKEN` | セットアップ用の Cloudflare API トークン（必須。`wrangler secret put` にも使う） |
-| ― | ― | `CLOUDFLARE_DEPLOY_TOKEN` | Actions のシークレット `CLOUDFLARE_API_TOKEN` に入れる、デプロイ権限だけのトークン（推奨。無ければ `CLOUDFLARE_API_TOKEN` を使う） |
+| ― | `CLOUDFLARE_DEPLOY_TOKEN` | Actions のシークレット `CLOUDFLARE_API_TOKEN` に入れる、デプロイ権限だけのトークン（推奨。無ければ `CLOUDFLARE_API_TOKEN` を使う） |
 | ― | `DISCORD_BOT_TOKEN` | Worker のシークレットに入れる Bot のトークン（任意） |
 
 - シークレットの値（トークン・メールアドレス・アカウントID）は画面に出さない。`gh` と `wrangler` には引数ではなく stdin で渡す。シェルは通さない。
