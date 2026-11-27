@@ -1,0 +1,48 @@
+name: Bug report / 不具合の報告
+description: Report something that does not work as expected / 期待どおりに動かないことを報告する
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component / 対象
+      options:
+        - Notifier bot (packages/notifier) / 通知Bot
+        - MCP Worker (packages/mcp)
+        - Shared code (packages/discord) / 共通部品
+        - Cloudflare Access setup / Cloudflare Access の設定
+        - Docs / ドキュメント
+        - Other / その他
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit / バージョンまたはコミット
+      description: Commit hash of main you used. / 使った main のコミットハッシュ。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / 再現手順
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / 期待する動作
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / 実際の動作
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / ログ
+      description: Please redact tokens, hostnames, IDs and email addresses before pasting. / 貼る前に、トークン・ホスト名・ID・メールアドレスを伏せてください。
+      render: shell

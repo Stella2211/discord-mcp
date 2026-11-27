@@ -1,0 +1,28 @@
+name: Feature request / 機能の要望
+description: Suggest an idea or improvement / 新しい機能や改善を提案する
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component / 対象
+      options:
+        - Notifier bot (packages/notifier) / 通知Bot
+        - MCP Worker (packages/mcp)
+        - Shared code (packages/discord) / 共通部品
+        - Docs / ドキュメント
+        - Other / その他
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you want to do? / やりたいこと
+      description: Describe the problem or need. / 困っていること、必要なこと。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal / 提案
+      description: How could it work? Alternatives are welcome too. / どうなっていれば良いか。代案があれば併せて。
