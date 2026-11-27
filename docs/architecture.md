@@ -38,8 +38,8 @@
 ## MCP の流れ（mcp）
 
 1. Cloudflare Access（Managed OAuth）が claude.ai からの接続を認証する。
-2. Worker が `Cf-Access-Jwt-Assertion` の署名・発行者・audience・メールアドレスを確かめる。
-3. ツールが Discord の REST API を呼ぶ。チャンネルを使うツールは、先にチャンネルを取り、サーバーのチャンネルか・扱ってよいサーバーかを確かめる。
+2. Worker が `Cf-Access-Jwt-Assertion` の署名・発行者・audience・メールアドレスを確認する。
+3. ツールが Discord の REST API を呼ぶ。チャンネルを使うツールは、先にチャンネルを取り、サーバーのチャンネルか・扱ってよいサーバーかを確認する。
 
 ## 信頼の境界
 

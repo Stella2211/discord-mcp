@@ -9,4 +9,4 @@
 | 4014（許可されていない intents）で止める | `packages/notifier/src/gateway.ts` の `FATAL_CLOSE_CODES` |
 | User-Agent | `packages/discord/src/rest.ts`（`DiscordBot (<リポジトリURL>, <版>)` の形式） |
 
-- `bun run check`（`packages/notifier`）で、トークン・intent・参加サーバー・通知対象の人がサーバーにいるかを一度に確かめられる。
+- `bun run check`（`packages/notifier`）で、トークン・intent・参加サーバー・通知対象の人がサーバーにいるかを一度に確認できる。

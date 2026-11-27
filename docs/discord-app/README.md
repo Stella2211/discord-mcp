@@ -18,7 +18,7 @@
 | 権限 | ビット | 使うところ |
 | --- | --- | --- |
 | View Channels | `1 << 10` | チャンネルを見る（全部） |
-| Send Messages | `1 << 11` | `send_message`・`reply_to_message`。自分の投稿を直す `edit_message` も、追加の権限は要らない |
+| Send Messages | `1 << 11` | `send_message`・`reply_to_message`。自分の投稿を編集する `edit_message` も、追加の権限は要らない |
 | Send Messages in Threads | `1 << 38` | スレッドへの投稿 |
 | Read Message History | `1 << 16` | 過去の投稿を読む・検索・通知に添える直前の会話 |
 | Add Reactions | `1 << 6` | `add_reaction` |
@@ -32,11 +32,11 @@ https://discord.com/oauth2/authorize?client_id=<APPLICATION_ID>&scope=bot&permis
 ```
 
 - `<APPLICATION_ID>` は General Information ページの Application ID。
-- まず自分のプライベートサーバーで開いて追加し、動作を確かめてから、同じ URL をほかのサーバーの管理者に送る。
+- まず自分のプライベートサーバーで開いて追加し、動作を確認してから、同じ URL をほかのサーバーの管理者に送る。
 - 追加の画面で、管理者が権限を外すこともできる。外された権限を使うツールは「権限がない」と返す。
 
 ## 注意
 
-- トークンが漏れたら、Bot ページで Reset Token を押して作り直し、`.env` とシークレットを入れ替える。古いトークンはすぐ使えなくなる。
-- 管理者に追加してもらったサーバーで Bot が見えるチャンネルは、サーバーのロールとチャンネルの上書きで決まる。`list_channels` で、Bot から見えるか・送れるかを確かめられる。
+- トークンが漏れたら、Bot ページで Reset Token を押して再発行し、`.env` とシークレットを入れ替える。古いトークンはすぐ使えなくなる。
+- 管理者に追加してもらったサーバーで Bot が見えるチャンネルは、サーバーのロールとチャンネルの上書きで決まる。`list_channels` で、Bot から見えるか・送れるかを確認できる。
 - 詳しい要件は [requirements.md](./requirements.md)、実装との対応は [implementations.md](./implementations.md)。

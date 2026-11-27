@@ -3,16 +3,16 @@
 | ファイル | 役割 |
 | --- | --- |
 | `packages/notifier/src/main.ts` | 入口。設定の読み込み、`--check`、ロックファイル、各部品の組み立て、終了処理、1時間ごとの状態ログ |
-| `packages/notifier/src/config.ts` | `.env` の検査（zod）。`DUET_ROUTES` は `Map<ID, 宛先名>` にする（ID の形・宛先名・重複を検査し、エラーに値は出さない）。空の値は未設定として扱う。判定モデルの設定の組み合わせを確かめる |
+| `packages/notifier/src/config.ts` | `.env` の検査（zod）。`DUET_ROUTES` は `Map<ID, 宛先名>` にする（ID の形・宛先名・重複を検査し、エラーに値は出さない）。空の値は未設定として扱う。判定モデルの設定の組み合わせを確認する |
 | `packages/notifier/src/gateway.ts` | Gateway クライアント。WebSocket・タイマー・乱数を差し替えられる（テスト用） |
 | `packages/notifier/src/filter.ts` | `classify`：すぐ知らせる／判定に回す／無視 |
-| `packages/notifier/src/directory.ts` | サーバー名・ロール・所有者・チャンネルの権限の上書き（GUILD_CREATE・GUILD_ROLE_*・CHANNEL_* などから）と、通知対象の人のメンバー情報（REST。1時間、いなければ5分、失敗は1分キャッシュ）の控え。`targetCanView` で通知対象の人がチャンネルを見られるかを計算する。非公開スレッドは `targetInThread`（REST の Get Thread Member。参加していれば1時間、404 なら5分、失敗は1分キャッシュ。失敗のときは、参加していると分かっていた場合を除いて知らせる側に倒す）で参加を確かめる。非公開スレッドの MESSAGE_CREATE のうち、本人を加えた（種別1）・外した（種別2）システムメッセージと本人の投稿でも控えを書き換える（GUILD_MEMBERS intent が無く THREAD_MEMBERS_UPDATE が届かないため）。本人へのメンションでは参加を問い合わせず見られるとみなし、控えの「参加していない」を捨てる |
+| `packages/notifier/src/directory.ts` | サーバー名・ロール・所有者・チャンネルの権限の上書き（GUILD_CREATE・GUILD_ROLE_*・CHANNEL_* などから）と、通知対象の人のメンバー情報（REST。1時間、いなければ5分、失敗は1分キャッシュ）のキャッシュ。`targetCanView` で通知対象の人がチャンネルを見られるかを計算する。非公開スレッドは `targetInThread`（REST の Get Thread Member。参加していれば1時間、404 なら5分、失敗は1分キャッシュ。失敗のときは、参加していると分かっていた場合を除いて知らせる側に倒す）で参加を確認する。非公開スレッドの MESSAGE_CREATE のうち、本人を加えた（種別1）・外した（種別2）システムメッセージと本人の投稿でもキャッシュを更新する（GUILD_MEMBERS intent が無く THREAD_MEMBERS_UPDATE が届かないため）。本人へのメンションでは参加を問い合わせず見られるとみなし、キャッシュの「参加していない」を破棄する |
 | `packages/notifier/src/app.ts` | `Notifier`：振り分け、直前の会話の取得、チャンネルごとのまとめ、判定、判定できなかった投稿の未判定での通知、失敗が続いたときの警告 |
 | `packages/notifier/src/decision/` | 判定モデル。`prompt.ts`（プロンプトと出力の解釈）、`judge.ts`（判定モデルを呼び、失敗したら未判定で知らせる側に倒す。通知Botと試験用スクリプトで共通）、`clef.ts`（Workers AI の REST API に `state` と `questions` を送り、`result.answers.relevant.noul` の確率か `priority.score` の重要度のどちらかがしきい値以上なら関係ありとする）、`openai-compatible.ts`（openrouter もこれを使い、`provider: { zdr: true }` を足す）、`anthropic.ts`（`messages.parse` と zod の出力形式） |
 | `packages/notifier/src/routing.ts` | `resolveRoute`：チャンネルID → スレッドの親チャンネルID → サーバーID の順に `DUET_ROUTES` を引く（純粋関数）。載っていなければ `undefined`（既定の宛先） |
 | `packages/notifier/src/format.ts` | 通知文の組み立て（メンションの表示名への置き換え、添付・埋め込みの注記、リンク、長さの予算） |
 | `packages/notifier/src/duet.ts` | `DuetQueue`（間隔・まとめ・再送・失敗時の延長。`onFailureStreak` を、連続3回目の失敗で1回だけ呼ぶ。成功で数え直す）、`DuetRouter`（宛先ごとの `DuetQueue` を使うときに作る。合計の件数・送信中かを返す）、`truncateNotice`（区切りを閉じ直す切り詰め）、`duetSender`（duet-send の起動と時間の上限。`route` があれば `--to` を付ける） |
-| `packages/notifier/scripts/eval.ts` | 判定の試験。`eval/cases.json` の投稿を `.env` の判定モデルに `judge` で渡し、期待との一致と、Clef なら確率と重要度のしきい値ごとの見逃し・余計な通知を出す。`fail` の付いた投稿は偽の失敗で未判定の通知を確かめる。`--profile-file` でプロフィールを比べる |
+| `packages/notifier/scripts/eval.ts` | 判定の試験。`eval/cases.json` の投稿を `.env` の判定モデルに `judge` で渡し、期待との一致と、Clef なら確率と重要度のしきい値ごとの見逃し・余計な通知を出す。`fail` の付いた投稿は偽の失敗で未判定の通知を確認する。`--profile-file` でプロフィールを比べる |
 | `packages/notifier/service/templates.ts` | systemd・launchd・タスク スケジューラの設定の中身 |
 | `packages/notifier/service/install.ts` | 自動起動を入れる／外す |
 

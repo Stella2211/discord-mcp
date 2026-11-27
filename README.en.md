@@ -2,13 +2,13 @@
 
 # discord-mcp
 
-One Discord bot (one bot token) used from two places.
+A single Discord bot (one bot token), used from two places: the notifier and the MCP server.
 
-- **Notifier bot** (`packages/notifier`): runs on an always-on PC. It forwards new messages to Claude Duet through [duet-send](https://github.com/Stella2211/duet-send). Mentions of you and similar messages are forwarded right away. Everything else is forwarded only if a judge model says it looks relevant to you. If you turn the judge model off, every message in the channels the bot can see is forwarded.
+- **Notifier bot** (`packages/notifier`): runs on an always-on PC. It forwards new messages to Claude Duet through [duet-send](https://github.com/Stella2211/duet-send). Mentions of you are forwarded right away. Everything else is forwarded only if a judge model says it looks relevant to you. If you turn the judge model off, every message in the channels the bot can see is forwarded.
 - **Discord MCP** (`packages/mcp`): a remote MCP server running on Cloudflare Workers behind Cloudflare Access. From claude.ai it can list servers and channels, read past messages, search, post, reply, add reactions, and edit the bot's own messages.
 - **Shared code** (`packages/discord`): the REST client, types, permission calculation, snowflakes and string formatting. It runs on both Bun and Workers.
 
-The design and details are in [docs/README.md](./docs/README.md) (in Japanese).
+Design and details are in [docs/README.md](./docs/README.md) (in Japanese).
 
 ## Requirements
 

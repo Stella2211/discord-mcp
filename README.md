@@ -2,13 +2,13 @@
 
 # discord-mcp
 
-1つの Discord Bot を2か所から使う仕組み。
+1つの Discord Bot（トークン1つ）を、通知Botと MCP の2か所から使う仕組みです。
 
 - **通知Bot**（`packages/notifier`）：常駐PCで動く。新しい投稿のうち、自分へのメンションなどはすぐに、それ以外は判定モデルが「関係ありそう」としたものだけ（判定モデルを使わない設定では、見られるチャンネルのすべての投稿）を、[duet-send](https://github.com/Stella2211/duet-send) で Claude Duet に知らせる。
 - **Discord MCP**（`packages/mcp`）：Cloudflare Workers + Cloudflare Access で動くリモートMCPサーバー。claude.ai から、サーバー・チャンネルの一覧、過去の投稿の読み取り、検索、投稿、返信、リアクション、Bot 自身の投稿の編集ができる。
 - **共通部品**（`packages/discord`）：REST クライアント、型、権限の計算、Snowflake、文字列の整形。Bun と Workers の両方で動く。
 
-設計と詳細は [docs/README.md](./docs/README.md)。
+設計と詳細は [docs/README.md](./docs/README.md) にあります。
 
 ## 前提
 
@@ -29,7 +29,7 @@ bun install
    ```bash
    cd packages/notifier
    cp .env.example .env              # トークン・自分のユーザーID・duet-send のパス・判定モデルを書く
-   bun run check                     # 設定を確かめる
+   bun run check                     # 設定を確認する
    DUET_DRY_RUN=true bun run start   # 試運転（Duet に送らずログに出す）
    bun run service:install           # 自動起動を入れる
    ```

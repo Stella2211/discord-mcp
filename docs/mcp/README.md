@@ -62,7 +62,7 @@ Worker が読む値は次のとおり。
 
 ## デプロイ
 
-デプロイは必ず `bun run deploy` で行う。`scripts/deploy-config.ts` が環境変数 `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD` の値を確かめ、それを入れた `wrangler.deploy.jsonc`（`wrangler.jsonc` と同じフォルダ、git には入らない）を作って `wrangler deploy --config wrangler.deploy.jsonc` する。値が欠けているか例のままなら、何もデプロイせずに止まる。`bunx wrangler deploy` を直接使うと、プレースホルダーの `wrangler.jsonc` がそのまま本番に上がるので使わない。
+デプロイは必ず `bun run deploy` で行う。`scripts/deploy-config.ts` が環境変数 `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD` の値を確認し、それを入れた `wrangler.deploy.jsonc`（`wrangler.jsonc` と同じフォルダ、git には入らない）を作って `wrangler deploy --config wrangler.deploy.jsonc` する。値が欠けているか例のままなら、何もデプロイせずに止まる。`bunx wrangler deploy` を直接使うと、プレースホルダーの `wrangler.jsonc` がそのまま本番に上がるので使わない。
 
 - **手元から**：
 
@@ -77,6 +77,6 @@ Worker が読む値は次のとおり。
 
 ## 注意
 
-- Workers からは REST だけを使う（Gateway には繋がない）。Durable Object も使わない。重い処理はないので Workers の無料プランで足りる見込みだが、CPU 時間はデプロイ後にダッシュボードで確かめる。
+- Workers からは REST だけを使う（Gateway には繋がない）。Durable Object も使わない。重い処理はないので Workers の無料プランで足りる見込みだが、CPU 時間はデプロイ後にダッシュボードで確認する。
 - `*.workers.dev` とプレビューURLは無効。カスタムドメインだけで受ける。
 - 要件は [requirements.md](./requirements.md)、実装は [implementations.md](./implementations.md)。

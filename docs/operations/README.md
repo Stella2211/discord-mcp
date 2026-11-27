@@ -10,7 +10,7 @@
 | ホスト名・Access の設定値（秘密ではない） | ― | リポジトリ変数 `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD`（`bun run deploy` が `wrangler.deploy.jsonc` に入れる。リポジトリの `wrangler.jsonc` はプレースホルダー） |
 
 - `.env` と `.dev.vars` は git に入らない（`.gitignore`）。リポジトリにはプレースホルダーの `.env.example` と `.dev.vars.example` だけを置く。
-- トークンを作り直したら、両方を入れ替えて、通知Botを再起動する。
+- トークンを再発行したら、両方を入れ替えて、通知Botを再起動する。
 
 ## CI（GitHub Actions）
 
@@ -31,6 +31,6 @@
 ```bash
 bun run typecheck      # 3つのパッケージの型検査
 bun test               # 全テスト（Discord・判定モデル・duet-send には繋がない）
-cd packages/notifier && bun run check   # 実際のトークンで通知Botの設定を確かめる
+cd packages/notifier && bun run check   # 実際のトークンで通知Botの設定を確認する
 cd packages/mcp && bun run smoke        # デプロイ後の疎通確認
 ```

@@ -3,7 +3,7 @@
 | ファイル | 役割 |
 | --- | --- |
 | `packages/mcp/src/index.ts` | Worker の入口。ホストとパスの確認、Access の検査、`createMcpHandler`（agents）への受け渡し |
-| `packages/mcp/src/access.ts` | Access の JWT 検査（jose）。署名・発行者・audience・メールアドレスを確かめる |
+| `packages/mcp/src/access.ts` | Access の JWT 検査（jose）。署名・発行者・audience・メールアドレスを確認する |
 | `packages/mcp/src/server.ts` | `McpServer` を作り、8つのツールを登録する。リクエストごとに REST クライアントを作る |
 | `packages/mcp/src/tools/common.ts` | 実行の文脈（REST、許可するサーバー、Bot 自身の情報のキャッシュ）、入力の部品、結果の組み立て、エラーの文言、サーバー・チャンネルの確認、メッセージの整形、メンションの組み立て |
 | `packages/mcp/src/tools/list-guilds.ts` | `GET /users/@me/guilds`（200件ずつ、最大5ページ） |
@@ -11,7 +11,7 @@
 | `packages/mcp/src/tools/read-messages.ts` | `GET /channels/{id}/messages`。古い順に並べ、収まらなければ新しい側を残す |
 | `packages/mcp/src/tools/search-messages.ts` | `GET /guilds/{id}/messages/search`。日付（日本時間）を Snowflake の `min_id` / `max_id` に変える。202 は待ち時間を伝える |
 | `packages/mcp/src/tools/send.ts` | `send_message` と `reply_to_message`（`POST /channels/{id}/messages`）、`edit_message`（`PATCH /channels/{id}/messages/{id}`） |
-| `packages/mcp/src/tools/add-reaction.ts` | `PUT /channels/{id}/messages/{id}/reactions/{emoji}/@me`。`<a:name:id>` などを `name:id` に直し、URL エンコードする |
+| `packages/mcp/src/tools/add-reaction.ts` | `PUT /channels/{id}/messages/{id}/reactions/{emoji}/@me`。`<a:name:id>` などを `name:id` に変換し、URL エンコードする |
 | `packages/mcp/scripts/deploy-config.ts` | `bun run deploy` の前半。ホスト名と Access の値を入れた `wrangler.deploy.jsonc` を作る（CI も手元も同じ） |
 | `packages/mcp/scripts/smoke.ts` | デプロイ後の疎通確認（認証なしで 401 と保護リソースのメタデータ）。例のホスト名のままなら止まる |
 

@@ -36,6 +36,6 @@
 ## 運用
 
 - 設定は `.env` だけ。起動時に値を検査し、どの項目が悪いかを示して止まる（値そのものは表示しない）。
-- `--check` で、トークン・Message Content Intent・参加サーバー・通知対象の人の参加・duet-send（`DUET_ROUTES` の宛先ごとの dry run を含む）・判定モデルを確かめられる。
+- `--check` で、トークン・Message Content Intent・参加サーバー・通知対象の人の参加・duet-send（`DUET_ROUTES` の宛先ごとの dry run を含む）・判定モデルを確認できる。
 - 二重起動を防ぐ。SIGINT / SIGTERM で Gateway を閉じ、溜まった通知を送ってから終わる（最大60秒。過ぎても送信中の duet-send は子プロセスごと強制的に止める）。
 - macOS・Linux・Windows で、OS の起動（ログイン）時に自動で起動し、落ちたら起動し直す。
