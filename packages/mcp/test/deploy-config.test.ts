@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { applyDeployValues, DEPLOY_CONFIG, validate } from "../scripts/deploy-config";
+import { applyDeployValues, DEPLOY_CONFIG, normalizeGuildIds, validate } from "../scripts/deploy-config";
 
 const values = { MCP_HOST: "mcp.my-domain.test", ACCESS_TEAM_DOMAIN: "team.cloudflareaccess.com", ACCESS_AUD: "abc123def456" };
 
@@ -46,5 +46,37 @@ describe("deploy-config", () => {
     expect(() => applyDeployValues(`{ "MCP_HOST": "" }`, values)).toThrow("pattern");
     const twice = `"pattern": "a", "pattern": "b", "MCP_HOST": "", "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": ""`;
     expect(() => applyDeployValues(twice, values)).toThrow("2 か所");
+  });
+
+  test("ALLOWED_GUILD_IDS が無い・空なら、wrangler.jsonc の値をそのまま使う", async () => {
+    const text = await Bun.file(new URL("../wrangler.jsonc", import.meta.url)).text();
+    for (const v of [undefined, "", "  ", " , "]) {
+      const checked = validate({ ...values, ALLOWED_GUILD_IDS: v });
+      expect("ALLOWED_GUILD_IDS" in checked).toBe(false);
+      expect(applyDeployValues(text, checked)).toBe(applyDeployValues(text, values));
+    }
+  });
+
+  test("ALLOWED_GUILD_IDS があれば vars に入れ、ほかは変えない", async () => {
+    const text = await Bun.file(new URL("../wrangler.jsonc", import.meta.url)).text();
+    const checked = validate({ ...values, ALLOWED_GUILD_IDS: " 100000000000000001 , 100000000000000002," });
+    expect(checked.ALLOWED_GUILD_IDS).toBe("100000000000000001,100000000000000002");
+    const out = applyDeployValues(text, checked);
+    expect(out).toContain(`"ALLOWED_GUILD_IDS": "100000000000000001,100000000000000002"`);
+    expect(out).toContain(`"ACCESS_AUD": "abc123def456"`);
+    expect(out.split("\n").length).toBe(text.split("\n").length);
+  });
+
+  test("ALLOWED_GUILD_IDS の形式が正しくなければ断る", () => {
+    expect(() => normalizeGuildIds("abc")).toThrow("ALLOWED_GUILD_IDS");
+    expect(() => normalizeGuildIds("100000000000000001,12345")).toThrow();
+    expect(() => normalizeGuildIds('100000000000000001", "x": "y')).toThrow();
+    expect(() => validate({ ...values, ALLOWED_GUILD_IDS: "1000000000000000011000" })).toThrow();
+  });
+
+  test("ALLOWED_GUILD_IDS のキーが無い設定では、値があるときだけ失敗する", () => {
+    const noGuilds = `"pattern": "a", "MCP_HOST": "", "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": ""`;
+    expect(() => applyDeployValues(noGuilds, values)).not.toThrow();
+    expect(() => applyDeployValues(noGuilds, { ...values, ALLOWED_GUILD_IDS: "100000000000000001" })).toThrow("ALLOWED_GUILD_IDS");
   });
 });

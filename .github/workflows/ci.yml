@@ -17,7 +17,8 @@ jobs:
       - run: bun run typecheck
       - run: bun test
   # MCP のデプロイ。リポジトリ変数 DEPLOY_MCP を true にするまでは走らない。
-  # ホスト名と Access の値はリポジトリ変数 MCP_HOST・ACCESS_TEAM_DOMAIN・ACCESS_AUD から入れる（wrangler.jsonc はプレースホルダー）
+  # ホスト名と Access の値はリポジトリ変数 MCP_HOST・ACCESS_TEAM_DOMAIN・ACCESS_AUD から入れる（wrangler.jsonc はプレースホルダー）。
+  # リポジトリ変数 ALLOWED_GUILD_IDS は任意。空なら wrangler.jsonc の値のまま
   deploy-mcp:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_MCP == 'true'
     needs: check
@@ -59,6 +60,7 @@ jobs:
           MCP_HOST: ${{ vars.MCP_HOST }}
           ACCESS_TEAM_DOMAIN: ${{ vars.ACCESS_TEAM_DOMAIN }}
           ACCESS_AUD: ${{ vars.ACCESS_AUD }}
+          ALLOWED_GUILD_IDS: ${{ vars.ALLOWED_GUILD_IDS }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - if: steps.values.outputs.ready == 'true'
