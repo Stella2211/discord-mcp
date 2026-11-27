@@ -1,0 +1,67 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun test
+  # MCP のデプロイ。リポジトリ変数 DEPLOY_MCP を true にするまでは走らない。
+  # ホスト名と Access の値はリポジトリ変数 MCP_HOST・ACCESS_TEAM_DOMAIN・ACCESS_AUD から入れる（wrangler.jsonc はプレースホルダー）
+  deploy-mcp:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_MCP == 'true'
+    needs: check
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency: production
+    defaults:
+      run:
+        working-directory: packages/mcp
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # 値が1つでも欠けていたら、プレースホルダーのままデプロイしないよう、以降を飛ばす（ジョブは成功のまま）
+      - id: values
+        env:
+          MCP_HOST: ${{ vars.MCP_HOST }}
+          ACCESS_TEAM_DOMAIN: ${{ vars.ACCESS_TEAM_DOMAIN }}
+          ACCESS_AUD: ${{ vars.ACCESS_AUD }}
+        run: |
+          missing=""
+          [ -n "$MCP_HOST" ] || missing="$missing MCP_HOST"
+          [ -n "$ACCESS_TEAM_DOMAIN" ] || missing="$missing ACCESS_TEAM_DOMAIN"
+          [ -n "$ACCESS_AUD" ] || missing="$missing ACCESS_AUD"
+          if [ -n "$missing" ]; then
+            echo "::warning::MCP のデプロイを飛ばした。リポジトリ変数に${missing} を設定する（docs/mcp/README.md）"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.values.outputs.ready == 'true'
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - if: steps.values.outputs.ready == 'true'
+        run: bun install --frozen-lockfile
+      # 値を入れた wrangler.deploy.jsonc を作り、それでデプロイする（手元の bun run deploy と同じ）
+      - if: steps.values.outputs.ready == 'true'
+        run: bun run deploy
+        env:
+          MCP_HOST: ${{ vars.MCP_HOST }}
+          ACCESS_TEAM_DOMAIN: ${{ vars.ACCESS_TEAM_DOMAIN }}
+          ACCESS_AUD: ${{ vars.ACCESS_AUD }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - if: steps.values.outputs.ready == 'true'
+        run: bun run smoke
+        env:
+          SMOKE_HOST: ${{ vars.MCP_HOST }}

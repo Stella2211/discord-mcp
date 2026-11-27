@@ -1,0 +1,22 @@
+{
+  "name": "@discord-mcp/mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8788 --local-upstream localhost:8788",
+    "typecheck": "tsc --noEmit -p .",
+    "deploy": "bun run scripts/deploy-config.ts && wrangler deploy --config wrangler.deploy.jsonc",
+    "smoke": "bun run scripts/smoke.ts",
+    "cf-typegen": "wrangler types --strict-vars=false"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.3.1",
+    "@discord-mcp/discord": "workspace:*",
+    "agents": "0.28.1",
+    "jose": "6.2.17",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "wrangler": "4.160.0"
+  }
+}

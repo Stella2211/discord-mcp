@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "schedule": ["before 9am on monday"],
+  "timezone": "Asia/Tokyo",
+  "minimumReleaseAge": "7 days",
+  "vulnerabilityAlerts": { "schedule": ["at any time"], "minimumReleaseAge": null },
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "dev dependencies",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["wrangler"],
+      "groupName": "wrangler",
+      "automerge": false
+    }
+  ]
+}

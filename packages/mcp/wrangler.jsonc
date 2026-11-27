@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pulsar-bot-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  // ホスト名と Access の値はプレースホルダー。このファイルのまま wrangler deploy をしない。
+  // bun run deploy が環境変数の値を入れた wrangler.deploy.jsonc を作り、それでデプロイする（docs/mcp/README.md）
+  // MCP を置くホスト名。vars.MCP_HOST と同じ値にする
+  "routes": [{ "pattern": "discord-mcp.example.com", "custom_domain": true }],
+  // invocation logs はリクエストの URL を残すので無効にし、console.log（ツール名・件数・所要時間だけ）を残す
+  "observability": { "enabled": true, "logs": { "enabled": true, "invocation_logs": false } },
+  "vars": {
+    "MCP_HOST": "discord-mcp.example.com",
+    // Cloudflare Access の設定値。空のままだと /mcp は 500 を返す（fail closed）
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    // 空なら Bot が入っている全サーバー。カンマ区切りでサーバーIDを書くと、そのサーバーだけを扱う
+    "ALLOWED_GUILD_IDS": ""
+  }
+}

@@ -1,0 +1,20 @@
+node_modules
+dist
+out
+*.tgz
+coverage
+.env
+.env.*
+!.env.example
+.dev.vars*
+!.dev.vars.example
+.wrangler/
+# bun run deploy が作るデプロイ用の設定（本番のホスト名と Access の値が入る）
+packages/mcp/wrangler.deploy.jsonc
+.DS_Store
+.idea
+*.tsbuildinfo
+# 判定の試験用に自分で書いたプロフィールや投稿（個人の情報が入る）。同梱の例だけを追跡する
+packages/notifier/eval/*
+!packages/notifier/eval/cases.json
+!packages/notifier/eval/profile.example.md

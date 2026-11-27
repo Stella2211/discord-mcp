@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Workers の型（wrangler types の生成物）が主。テスト用に bun の型も読む
+    "types": ["./worker-configuration.d.ts", "bun"]
+  },
+  "include": ["src", "test", "scripts", "worker-configuration.d.ts"]
+}
