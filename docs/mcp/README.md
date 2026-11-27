@@ -38,7 +38,7 @@ Worker が読む値は次のとおり。
 | `DISCORD_BOT_TOKEN` | シークレット | Bot のトークン |
 | `ALLOWED_EMAIL` | シークレット | Access で許可した自分のメールアドレス |
 | `MCP_HOST` / `ACCESS_TEAM_DOMAIN` / `ACCESS_AUD` | `vars`（上の表） | ホスト名と Access の値 |
-| `ALLOWED_GUILD_IDS` | `vars`（任意） | 扱うサーバーを限る（カンマ区切り。空なら Bot が入っている全サーバー） |
+| `ALLOWED_GUILD_IDS` | `vars`（任意）。CI ではリポジトリ変数でも渡せる | 扱うサーバーを限る（カンマ区切り。空なら Bot が入っている全サーバー） |
 | `DEV_BYPASS_ACCESS` | `.dev.vars` | `1` で localhost / 127.0.0.1 宛てだけ Access の検査を飛ばす（`wrangler dev` 用。既定は無効） |
 | `SMOKE_HOST` | `bun run smoke` の環境変数 | 疎通確認の対象のホスト名。無ければ `wrangler.deploy.jsonc` の `MCP_HOST` |
 
@@ -47,7 +47,7 @@ Worker が読む値は次のとおり。
    - ポリシーは自分のメールアドレス1件だけを Allow。IdP は好きなもの（GitHub など）を使い、IdP が1つなら Instant authentication をオンにする。
    - Managed OAuth を有効にして DCR をオン。Allowed redirect URIs に `https://claude.ai/api/mcp/auth_callback` と `https://claude.com/api/mcp/auth_callback`。
 3. チームドメインと、Access アプリの AUD タグを控える。
-4. 扱うサーバーを限るなら `vars.ALLOWED_GUILD_IDS` にサーバーIDをカンマ区切りで書く。
+4. 扱うサーバーを限るなら `vars.ALLOWED_GUILD_IDS` にサーバーIDをカンマ区切りで書く。ID をコミットしたくないときは、環境変数（CI ならリポジトリ変数）`ALLOWED_GUILD_IDS` で渡す。空なら `wrangler.jsonc` の値のまま。
 5. シークレットを入れる（値はプロンプトに入力する）：
 
    ```bash
