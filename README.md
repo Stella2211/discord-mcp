@@ -47,6 +47,8 @@ bun install
 
 4. **claude.ai に追加する。** カスタムコネクタの URL に `https://<ホスト名>/mcp` を指定する。
 
+フォークして Claude Code に任せるなら、人がやるのは API トークンの作成など外部の画面の作業だけで、3 の変数・シークレットの登録とデプロイは Claude Code が進められる（[docs/fork-setup/](./docs/fork-setup/README.md)）。
+
 ## 開発
 
 ```bash

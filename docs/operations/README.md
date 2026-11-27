@@ -15,11 +15,12 @@
 ## CI（GitHub Actions）
 
 - `.github/workflows/ci.yml`：PR と `main` への push で、`bun install --frozen-lockfile`、`bun run typecheck`、`bun test`。
-- MCP のデプロイは、リポジトリ変数 `DEPLOY_MCP` が `true` のときだけ `main` への push で走る（`production` 環境、シークレット `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が要る）。
+- MCP のデプロイは、リポジトリ変数 `DEPLOY_MCP` が `true` のときだけ `main` への push（と、`gh workflow run ci --ref main` などの手動実行）で走る（`production` 環境、シークレット `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が要る）。
   - デプロイ先の値はリポジトリ変数 `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD` から読み、`bun run deploy`（`packages/mcp/scripts/deploy-config.ts` が値を入れた `wrangler.deploy.jsonc` を作り、それでデプロイする）に渡す。スモークテストには `SMOKE_HOST` として `MCP_HOST` を渡す。
   - 3つのどれかが空なら、デプロイとスモークテストを飛ばし、足りない変数の名前を警告に出す。ジョブは成功のままで、本番は前の版のまま残る。
   - 手元からのデプロイは [docs/mcp/](../mcp/README.md) の「デプロイ」。
 - アクションはコミットの SHA で固定し、checkout は `persist-credentials: false`。
+- フォークでは Actions が無効で始まる。有効にする方法と、変数・シークレットを `bun run setup` でまとめて入れる方法は [fork-setup/](../fork-setup/README.md)。
 
 ## 依存関係
 

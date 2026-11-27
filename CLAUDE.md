@@ -13,6 +13,10 @@ discord-mcp は、1つの Discord Bot（1つのトークン）を2か所から�
 - 注意：シークレット（Bot のトークン、API キー）・メールアドレス・Discord の ID をコードやドキュメントに書かない。例はプレースホルダーにする。
 - 注意：Discord の仕様（エンドポイント、Gateway の手順、エラーコード）は、変える前に https://docs.discord.com/developers の最新の記述で確かめる。
 
+## フォークのセットアップ
+
+フォークしたリポジトリでデプロイまで進めるよう頼まれたら、[docs/fork-setup/README.md](docs/fork-setup/README.md) の「Claude Code がやること」に沿って進める（`cd packages/mcp && bun run setup -- --host … --email … --dry-run` で計画を確かめてから実行）。トークンはチャットで受け取らず、利用者に `packages/mcp/.env` か環境変数に入れてもらう。人にしかできない作業は、その文書の「人がやること」として頼む。
+
 ## 開発の決まり
 
 - Bun を使う（`bun install`、`bun test`、`bun run <script>`、`bunx`）。Node.js・npm・jest は使わない。`.env` は Bun が自動で読むので dotenv は使わない。
