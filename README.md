@@ -65,6 +65,7 @@ cd packages/mcp && cp .dev.vars.example .dev.vars && bun run dev   # wrangler de
 - [docs/README.md](./docs/README.md)：索引
 - [docs/architecture.md](./docs/architecture.md)：構成
 - [docs/operations/](./docs/operations/README.md)：CI・シークレット・依存関係
+- [SECURITY.md](./SECURITY.md)：セキュリティポリシー（脆弱性の報告方法）
 
 ## ライセンス
 

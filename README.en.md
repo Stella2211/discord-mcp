@@ -67,6 +67,7 @@ All of the documentation is in Japanese.
 - [docs/README.md](./docs/README.md): index
 - [docs/architecture.md](./docs/architecture.md): architecture
 - [docs/operations/](./docs/operations/README.md): CI, secrets and dependencies
+- [SECURITY.md](./SECURITY.md): security policy (how to report a vulnerability)
 
 ## License
 
