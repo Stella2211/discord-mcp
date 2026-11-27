@@ -271,7 +271,7 @@ async function main() {
     }
   }
   if (failed > 0) throw new Error(`${failed} 件失敗した。直してからもう一度実行する（同じ値で上書きされるだけ）`);
-  console.log("\n次: Actions を有効にし、main に push するとデプロイが走る（docs/fork-setup/README.md）");
+  console.log("\n次: Actions を有効にし、gh workflow run ci --ref main でデプロイを走らせる（docs/fork-setup/README.md）");
 }
 
 if (import.meta.main) {

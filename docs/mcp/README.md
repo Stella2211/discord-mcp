@@ -74,7 +74,7 @@ Access アプリの作成（2・3）、シークレット（5）、CI の変数�
   bun run smoke
   ```
 
-- **CI から**：GitHub のリポジトリ変数（Settings → Secrets and variables → Actions → Variables）に `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD` を入れ、`DEPLOY_MCP` を `true` にする。`main` への push で同じ `bun run deploy` が走り、続けて `SMOKE_HOST` に `MCP_HOST` を渡してスモークテストを走らせる。3つのどれかが空なら、デプロイとスモークテストを飛ばして警告を出す（ジョブは成功のまま、本番は前の版のまま）。シークレットなどは [運用](../operations/README.md)。
+- **CI から**：GitHub のリポジトリ変数（Settings → Secrets and variables → Actions → Variables）に `MCP_HOST`・`ACCESS_TEAM_DOMAIN`・`ACCESS_AUD` を入れ、`DEPLOY_MCP` を `true` にする。`main` への push（または `main` での手動実行 `workflow_dispatch`）で同じ `bun run deploy` が走り、続けて `SMOKE_HOST` に `MCP_HOST` を渡してスモークテストを走らせる。3つのどれかが空なら、デプロイとスモークテストを飛ばして警告を出す（ジョブは成功のまま、本番は前の版のまま）。シークレットなどは [運用](../operations/README.md)。
 - `bun run smoke` は `SMOKE_HOST` が無ければ `wrangler.deploy.jsonc` の `vars.MCP_HOST` を見る。例のホスト名のままなら問い合わせずに止まる。
 
 ## 注意
