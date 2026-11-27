@@ -47,6 +47,8 @@ bun install
 
 4. **Add it to claude.ai.** Add a custom connector with the URL `https://<hostname>/mcp`.
 
+If you fork the repository and hand it to Claude Code, you only do the steps that live in third-party dashboards, such as creating the Cloudflare API token. Claude Code can register the variables and secrets for step 3 and get the deploy going ([docs/fork-setup/](./docs/fork-setup/README.md), in Japanese).
+
 ## Development
 
 ```bash

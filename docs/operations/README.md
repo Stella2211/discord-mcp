@@ -20,6 +20,7 @@
   - 3つのどれかが空なら、デプロイとスモークテストを飛ばし、足りない変数の名前を警告に出す。ジョブは成功のままで、本番は前の版のまま残る。
   - 手元からのデプロイは [docs/mcp/](../mcp/README.md) の「デプロイ」。
 - アクションはコミットの SHA で固定し、checkout は `persist-credentials: false`。
+- フォークでは Actions が無効で始まる。有効にする方法と、変数・シークレットを `bun run setup` でまとめて入れる方法は [fork-setup/](../fork-setup/README.md)。
 
 ## 依存関係
 

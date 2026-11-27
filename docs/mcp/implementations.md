@@ -13,6 +13,7 @@
 | `packages/mcp/src/tools/send.ts` | `send_message` と `reply_to_message`（`POST /channels/{id}/messages`）、`edit_message`（`PATCH /channels/{id}/messages/{id}`） |
 | `packages/mcp/src/tools/add-reaction.ts` | `PUT /channels/{id}/messages/{id}/reactions/{emoji}/@me`。`<a:name:id>` などを `name:id` に変換し、URL エンコードする |
 | `packages/mcp/scripts/deploy-config.ts` | `bun run deploy` の前半。ホスト名と Access の値を入れた `wrangler.deploy.jsonc` を作る（CI も手元も同じ） |
+| `packages/mcp/scripts/setup-fork.ts` | フォークのセットアップ（`bun run setup`）。詳細は [fork-setup/](../fork-setup/implementations.md) |
 | `packages/mcp/scripts/smoke.ts` | デプロイ後の疎通確認（認証なしで 401 と保護リソースのメタデータ）。例のホスト名のままなら止まる |
 
 ## 注意すべき実装

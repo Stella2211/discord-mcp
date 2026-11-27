@@ -9,7 +9,7 @@ export const DEPLOY_CONFIG = "wrangler.deploy.jsonc";
 
 export type DeployValues = { MCP_HOST: string; ACCESS_TEAM_DOMAIN: string; ACCESS_AUD: string; ALLOWED_GUILD_IDS?: string };
 
-const HOSTNAME = /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]{0,62}$/i;
+export const HOSTNAME = /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]{0,62}$/i;
 
 // 値を検査する。JSON の文字列に埋め込むので、ホスト名と英数字以外は受け付けない
 export function validate(values: Record<string, string | undefined>): DeployValues {

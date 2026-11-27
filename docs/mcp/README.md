@@ -42,6 +42,8 @@ Worker が読む値は次のとおり。
 | `DEV_BYPASS_ACCESS` | `.dev.vars` | `1` で localhost / 127.0.0.1 宛てだけ Access の検査を飛ばす（`wrangler dev` 用。既定は無効） |
 | `SMOKE_HOST` | `bun run smoke` の環境変数 | 疎通確認の対象のホスト名。無ければ `wrangler.deploy.jsonc` の `MCP_HOST` |
 
+Access アプリの作成（2・3）、シークレット（5）、CI の変数・シークレットは、`cd packages/mcp && bun run setup` でまとめてできる（IdP の選択と Instant authentication はダッシュボードのまま。[fork-setup/](../fork-setup/README.md)）。手で進めるときは次のとおり。
+
 1. 使うホスト名を決める。
 2. Cloudflare Zero Trust で self-hosted の Access アプリを作り、そのホスト名（パスなし）を保護する：
    - ポリシーは自分のメールアドレス1件だけを Allow。IdP は好きなもの（GitHub など）を使い、IdP が1つなら Instant authentication をオンにする。
